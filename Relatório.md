@@ -1,6 +1,9 @@
 # Projeto de Modelagem de Fenômenos Físicos : UltraGravity
 ### Igor Cortes Junqueira e Hanna Rodrigues Ferreira
-Ultragravity é um jogo interativo desenvolvido no ambiente Processing
+Ultragravity é um jogo interativo desenvolvido no ambiente Processing , dividido em duas interfaces 
+a Simulação e  o Gravity Challenge.
+## Menu:
+...
 ## Simulação:
 O modo simulação,menu em função menu01() e execução em função simulacao() tem por 
 objetivo comparar os erros de aproximação de métodos numéricos em simular 
@@ -16,9 +19,7 @@ também como Método do ponto médio,em amarelo, também é uma expansão da sé
 mas de segunda ordem aumentando a precisão e postergando a divergencia com a 
 tragetória ideal.
 
-## Sandbox:
-...
 ## Gravity Challenge:
 ...
-## Bibliografia:
+## Referências bibliográficas:
 ...
