@@ -5,9 +5,10 @@ def setup():
     size(800,800)
 
 def draw():
-    global modo
+    global modo, controle
     if modo==0:
         menu00()
+        controle=0
         
     elif modo==1:
         menu01()
@@ -15,11 +16,11 @@ def draw():
     elif modo==10:
         simulacao()
         
+    elif modo==20:
+        challenge()
+        
     elif modo==2:
         menu02()
-        
-    elif modo==3:
-        menu03()
         
     if modo!=0:
         fill(52, 61, 70)
@@ -34,25 +35,30 @@ def draw():
           
            
              
+       
                                                                                     
+                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                           
 def menu00():
     global modo
     if mousePressed and 100<=mouseX<=700:
-        modo = 1 if 350<=mouseY<=450 else (2 if 500<=mouseY<=600 else (3 if 650<=mouseY<=750 else 0))    
+        modo = 1 if 425<=mouseY<=525 else (2 if 600<=mouseY<=700 else 0) 
     background(192, 197, 206)
     fill(52, 61, 70)
-    rect(100,350,600,100)
-    rect(100,500,600,100)
-    rect(100,650,600,100)
+    rect(100,425,600,100)
+    rect(100,600,600,100)
     textSize(30)
     fill(0)
-    text("BEM VINDO(A) AO ULTRA GRAVITY!!!", 140,100)
-    text("Escolha o uso clicando em um",180,200)
-    text("dos seguintes botoes:",240,250)
+    text("BEM VINDO(A) AO ULTRA GRAVITY!!!", 140,150)
+    text("Escolha o uso clicando em um",180,275)
+    text("dos seguintes botoes:",240,325)
     fill(255)
-    text("SIMULACAO",315,413)
-    text("SANDBOX",330,561)
-    text("GRAVITY CHALLENGE",250,712)
+    text("SIMULACAO",315,488)
+    text("GRAVITY CHALLENGE",250,662)
+    
+    
+    
+    
     
     
     
@@ -98,18 +104,42 @@ def menu01():
     
     
     
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 def menu02():
-    global modo
-    background(0,255,0)
+    global modo, c_p, c_v, c_b, c_m0, c_m, c_cont, G, c_qtd, c_oldt, c_oldc, c_ponto, c_verif, controle
+    background(192, 197, 206)
+    fill(52, 61, 70)
+    rect(100,650,600,100)
+    textSize(30)
+    stroke(0)
+    fill(0)
+    text("GRAVITY CHALLENGE", 250,125)
+    text("Este e um jogo de orbitas.",210,250)
+    text("Clique e arraste para lancar corpos.",145,350)
+    text("Acumule pontos mantendo-os em orbita",105,400)
+    text("estavel por tempo suficiente.",190,450)
+    text("Bom jogo e boa sorte!!!",230,550)
+    fill(255)
+    text("INICIAR DESAFIO",280,712)
+    controle = controle+1 if controle<20 else controle
+    if mousePressed and controle==20 and 100<mouseX<700 and 650<mouseY<750:
+        c_p, c_v, c_b, c_m0, c_m, c_cont, G, c_qtd, c_oldt, c_oldc, c_ponto, c_verif= [], [], PVector(400,400), 10000000, 1000000, 0, 0.07, 0, millis()/1000.00, 0, 0, 0
+        modo = 20
+        controle=0
     
     
     
     
-    
-    
-def menu03():
-    global modo
-    background(0,0,255)
     
     
     
@@ -294,3 +324,105 @@ def simulacao():
     line(585,685,795,685)
     line(585,720,795,720)
     line(585,755,795,755)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+def challenge():
+    
+    global c_b, c_v, c_m0, c_p, c_m, c_cont, c_oldt, c_qtd, c_oldc, c_ponto, c_verif, controle
+    
+    background(79, 91, 102)
+    controle = controle+1 if controle<20 else controle
+    if controle==20:
+        
+        #c_verifica pontudação
+        c_verif = c_verif+1 if (c_oldc==c_qtd) else 0
+        c_ponto = max(c_qtd,c_ponto) if c_verif==500 else c_ponto 
+        c_oldc = c_qtd
+        
+        #Reset
+        if mousePressed and mouseX>700 and mouseY<50:
+            c_p, c_v, c_qtd, c_ponto = [], [], 0, 0
+        
+        #Clique para acrescentar corpo
+        
+        elif mousePressed and c_cont==0:
+            oltd = millis()/1000.00
+            c_p.append(PVector(mouseX,mouseY))
+            c_v.append(PVector(mouseX,mouseY))
+            c_qtd +=1
+            c_cont=1
+        
+        #Velocidade do novo corpo  
+              
+        elif mousePressed:
+            stroke(255)
+            line(c_p[c_qtd-1].x,c_p[c_qtd-1].y,mouseX,mouseY)
+            stroke(0)
+            c_v[c_qtd-1] = PVector.sub(c_p[c_qtd-1],PVector(mouseX,mouseY))
+            c_oldt = millis()/1000.0
+        
+        
+        #Cálculos        
+        if not(mousePressed):
+            c_cont=0
+            
+            #tempo transcorrido desde último desenho
+            t = millis()/1000.00
+            dt = t - c_oldt
+            c_oldt = t
+            
+            #Cálculo para cada corpo   
+            for i in range(c_qtd):
+                
+                #Força gravitacional central
+                Fg = PVector.sub(c_b,c_p[i])
+                d = Fg.mag()
+                Fg.mult((G*c_m0*c_m)/(d*d*d))
+                
+                #c_verifica excedente dos limites
+                if d<15 or c_p[i].x<0 or c_p[i].x>800 or c_p[i].y<0 or c_p[i].y>800:
+                    c_p.pop(i)
+                    c_v.pop(i)
+                    c_qtd -= 1
+                    break                        
+    
+                #Força dos outros corpos sobre o calculado
+                for k in range(c_qtd):
+                    if c_p[i]!=c_p[k]:
+                        F = PVector.sub(c_p[k],c_p[i])
+                        d = F.mag()
+                        F.mult((G*c_m*c_m)/(d*d*d))
+                        Fg.add(F)
+    
+                #atualização da posição do corpo
+                dp = c_v[i].copy()
+                dp.mult(dt)
+                c_p[i].add(dp)
+                #variação de velocidade para o corpo
+                a = PVector.mult(Fg, dt/c_m)
+                c_v[i].add(a)
+                
+    #Desenhos
+    fill(0)
+    textSize(20)
+    ellipse(c_b.x,c_b.y,30,30)
+    fill(0,0,100)
+    stroke(0,0,100)
+    for i in range(c_qtd):
+        ellipse(c_p[i].x,c_p[i].y,10,10)
+    stroke(0)
+    fill(52, 61, 70)
+    rect(700,10,90,40)
+    rect(200,15,400,30)
+    fill(255)
+    textSize(20)
+    text("reset",720,37)
+    text("Corpos: {} - Pontuacao: {}".format(c_qtd,c_ponto),270,37)
