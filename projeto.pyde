@@ -315,7 +315,7 @@ def simulacao():
     fill(255)
     text("Metodo de Euler", 610, 675)
     fill(255,255,120)
-    text("Metodo do Pto Medio", 588,710)
+    text("Ponto Médio", 560,710)
     fill(255,50,50)
     text("Runge-Kutta(RK4)", 607,745)
     fill(100,175,255)
