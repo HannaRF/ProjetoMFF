@@ -192,23 +192,37 @@ def simulacao():
     s_v2.add(a2)
     
     
+    #atualização da posição do corpo 3 pelo método de Range-Kutta
+    k1 = s_v3.copy()
+    k2 = k1.copy()
+    k2.mult(dt/2)
+    k3 = k2.copy()
+    k3.mult(dt/2)
+    k4 = k3.copy()
+    k4.mult(dt/2)
     
+    dp3m = k1.copy()
+    dp3m.add(2*k2)
+    dp3m.add(2*k3)
+    dp3m.add(k4)
+    dp3m.mult(1/6)
+   
+    s_p3m = s_p3.copy()
+    s_p3m.add(dp3m)
     
+    #cálculo da força de gravitação sobre o corpo 3 
+    Fg3 = PVector.sub(s_p3m, p0)
+    d3 = Fg3.mag()
+    Fg3.mult(G*s_m0*s_m/(d3*d3*d3))
     
+    #atualização da posição do corpo 3
+    dp3 = s_v3.copy()
+    dp3.mult(dt)
+    s_p3.add(dp3)
     
-    ######
-    
-    #Inplementar Runge-Kutta para atualizar posição, velocidade e aceleração no corpo 3.
-    #Posição do corpo 3: s_p3
-    #Velocidade corpo 3: s_v3
-    #Aceleração do corpo 3: a3
-    
-    ######
-    
-    
-    
-    
-    
+    #atualização de velocidade do corpo 3
+    a3 = PVector.mult(Fg3, -dt/s_m)
+    s_v3.add(a3)
     
     
     #cálculo do erro do corpo 1
