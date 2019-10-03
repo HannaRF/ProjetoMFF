@@ -230,12 +230,12 @@ def simulacao():
     
     k=(k1+2*k2+2*k3+k4)/6
     
-    #atualização da posição do corpo 2
+    #atualização da posição do corpo 3
     dp3 = k.copy()
     dp3.mult(dt)
     s_p3.add(dp3)
     
-    #atualização de velocidade do corpo 2
+    #atualização de velocidade do corpo 3
     s_v3.add(2*ak3)
     
     
