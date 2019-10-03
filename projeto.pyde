@@ -194,35 +194,49 @@ def simulacao():
     
     #atualização da posição do corpo 3 pelo método de Range-Kutta
     k1 = s_v3.copy()
-    k2 = k1.copy()
-    k2.mult(dt/2)
-    k3 = k2.copy()
-    k3.mult(dt/2)
-    k4 = k3.copy()
-    k4.mult(dt/2)
     
-    dp3m = k1.copy()
-    dp3m.add(2*k2)
-    dp3m.add(2*k3)
-    dp3m.add(k4)
-    dp3m.mult(1/6)
-   
-    s_p3m = s_p3.copy()
-    s_p3m.add(dp3m)
+    dpk2 = k1.copy()
+    dpk2.mult(dt/2)
+    pk2 = s_p3.copy()
+    pk2.add(dpk2)
+    Fgk2 = PVector.sub(pk2, p0)
+    dk2 = Fgk2.mag()
+    Fgk2.mult(G*s_m0*s_m/(dk2*dk2*dk2))
+    ak2 = PVector.mult(Fgk2, -dt/(2*s_m))
+    k2 = s_v3.copy()
+    k2.add(ak2)
     
-    #cálculo da força de gravitação sobre o corpo 3 
-    Fg3 = PVector.sub(s_p3m, p0)
-    d3 = Fg3.mag()
-    Fg3.mult(G*s_m0*s_m/(d3*d3*d3))
+    dpk3 = k2.copy()
+    dpk3.mult(dt/2)
+    pk3 = s_p3.copy()
+    pk3.add(dpk3)
+    Fgk3 = PVector.sub(pk3, p0)
+    dk3 = Fgk3.mag()
+    Fgk3.mult(G*s_m0*s_m/(dk3*dk3*dk3))
+    ak3 = PVector.mult(Fgk3, -dt/(2*s_m))
+    k3 = s_v3.copy()
+    k3.add(ak3)
+    
+    dpk4 = k3.copy()
+    dpk4.mult(dt)
+    pk4 = s_p3.copy()
+    pk4.add(dpk4)
+    Fgk4 = PVector.sub(pk4, p0)
+    dk4 = Fgk4.mag()
+    Fgk4.mult(G*s_m0*s_m/(dk4*dk4*dk4))
+    ak4 = PVector.mult(Fgk4, -dt/s_m)
+    k4 = s_v3.copy()
+    k4.add(ak4)
+    
+    k=(k1+2*k2+2*k3+k4)/6
     
     #atualização da posição do corpo 3
-    dp3 = s_v3.copy()
+    dp3 = k.copy()
     dp3.mult(dt)
     s_p3.add(dp3)
     
     #atualização de velocidade do corpo 3
-    a3 = PVector.mult(Fg3, -dt/s_m)
-    s_v3.add(a3)
+    s_v3.add(2*ak3)
     
     
     #cálculo do erro do corpo 1
@@ -329,7 +343,7 @@ def simulacao():
     fill(255)
     text("Metodo de Euler", 610, 675)
     fill(255,255,120)
-    text("Ponto Médio", 560,710)
+    text("Ponto Medio", 635,710)
     fill(255,50,50)
     text("Runge-Kutta(RK4)", 607,745)
     fill(100,175,255)
@@ -356,7 +370,7 @@ def challenge():
     controle = controle+1 if controle<20 else controle
     if controle==20:
         
-        #c_verifica pontudação
+        #c_verifica pontuação
         c_verif = c_verif+1 if (c_oldc==c_qtd) else 0
         c_ponto = max(c_qtd,c_ponto) if c_verif==500 else c_ponto 
         c_oldc = c_qtd
