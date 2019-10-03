@@ -370,7 +370,7 @@ def challenge():
     controle = controle+1 if controle<20 else controle
     if controle==20:
         
-        #c_verifica pontudação
+        #c_verifica pontuação
         c_verif = c_verif+1 if (c_oldc==c_qtd) else 0
         c_ponto = max(c_qtd,c_ponto) if c_verif==500 else c_ponto 
         c_oldc = c_qtd
