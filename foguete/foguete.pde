@@ -21,7 +21,7 @@ void draw(){
   }
   else image(r,250,250);
   if(frameCount>100 & h<=0){
-      if(v<=-50) image(boom,300,275);
+      if(v<=0) image(boom,300,275);
       h = 0;
   }
   else{
