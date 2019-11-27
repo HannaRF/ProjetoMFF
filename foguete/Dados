@@ -1,0 +1,27 @@
+dados reais para variáveis configuráveis:
+* den
+
+Vênus : 9,07969405 atm 
+Marte : 0,00592154 atm
+
+* mc , m ,vj
+
+Saturno V : 2.970.000 kg (mc)
+            35100000 N (Empuxo)
+            263 seconds (vj)
+            2580 m/s (vj)
+            
+# Foguete Lunar,Missão Apollo para exploração da lua e Skylab para a construção da primeira estação espacial
+
+Foguete Sputnik : 267000 kg (mc)
+                  912000 N (Empuxo)
+                  306 s (vj)
+                  
+#Soviético,realizou o primeiro lançamento de satélite em órbita.satélite Sputnik1
+
+Vostok-k : 281375 kg (m)
+           3894250 N (Empuxo)
+           256 s (vj)
+           118 s (tempo de combustao)
+           
+#usado para lançar o Vostok 1, o primeiro vôo espacial tripulado, que fez de Yuri Gagarin o primeiro humano a voar no espaço
